@@ -68,7 +68,7 @@ async function searchSemanticScholar(query: string, apiKey?: string): Promise<Un
     const data = await response.json();
     return (data.data || []).map((p: SemanticPaper) => ({
       id: p.paperId || `sem-${randomUUID()}`,
-      source: 'semantic-scholar',
+      source: 'semantic-scholar' as const,
       title: p.title,
       year: p.year?.toString() || '',
       authors: p.authors?.map((a) => a.name) || [],
@@ -110,7 +110,7 @@ async function searchArxiv(query: string): Promise<UnifiedPaper[]> {
 
         return {
           id: entry.id || `arxiv-${randomUUID()}`,
-          source: 'arxiv',
+          source: 'arxiv' as const,
           title: entry.title,
           year: publishedYear.toString(),
           authors,
@@ -152,7 +152,7 @@ async function searchNews(query: string): Promise<UnifiedPaper[]> {
 
       return {
         id: guidText || `news-${randomUUID()}`,
-        source: 'news',
+        source: 'news' as const,
         title: item.title,
         year: pubDate.getFullYear().toString(),
         authors: [sourceText || 'News'],
