@@ -36,7 +36,6 @@ export default function MainDashboard() {
   const [hasSearched, setHasSearched] = useState(false);
   const [visitedIds, setVisitedIds] = useState<Set<string>>(new Set());
   
-  // performSearch를 useCallback으로 감싸서 의존성 배열에 추가 가능하게 함
   const performSearch = useCallback(async () => {
     if (activeTab === 'gov' || activeTab === 'museum') {
         return; 
@@ -53,7 +52,6 @@ export default function MainDashboard() {
       if (!res.ok) throw new Error('Search failed');
       const data = await res.json();
       const newPapers = Array.isArray(data.data) ? data.data : [];
-      // 상위 10개만 노출
       setPapers(newPapers.slice(0, 10));
     } catch (err) {
       console.error(err);
@@ -61,16 +59,15 @@ export default function MainDashboard() {
     } finally {
       setIsLoading(false);
     }
-  }, [activeTab, query]); // query가 변경되어도 재검색은 사용자 액션으로만 하지만, 함수 자체는 최신 query를 가져야 함.
+  }, [activeTab, query]);
 
-  // 탭 변경 시 상태 초기화 및 자동 검색
   useEffect(() => {
     setPapers([]); 
     setError(null);
     if(hasSearched && query.trim() && (activeTab === 'research' || activeTab === 'news')) {
         performSearch();
     }
-  }, [activeTab, hasSearched, query, performSearch]); // 모든 의존성 추가. 조건문으로 실행 제어.
+  }, [activeTab, hasSearched, query, performSearch]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,22 +103,22 @@ export default function MainDashboard() {
               />
             </form>
 
-            {/* 탭 메뉴 */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 w-full">
+            {/* 탭 메뉴 - 간격(gap) 조정 및 모바일 최적화 */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
               {TABS.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={cn(
-                    "flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 px-4 py-4 md:py-5 text-base md:text-lg font-bold transition-all border-2 w-full",
+                    "flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 px-3 py-4 md:py-5 text-sm md:text-lg font-bold transition-all border-2 w-full",
                     "rounded-full",
                     activeTab === tab.id 
                       ? "bg-slate-900 text-white border-slate-900 shadow-lg transform scale-[1.02] z-10" 
                       : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-400 hover:text-slate-900"
                   )}
                 >
-                  {tab.icon ? <tab.icon className="w-6 h-6 md:w-7 md:h-7" /> : <BookOpen className="w-6 h-6 md:w-7 md:h-7" />}
-                  <span>{tab.label}</span>
+                  {tab.icon ? <tab.icon className="w-5 h-5 md:w-6 md:h-6" /> : <BookOpen className="w-5 h-5 md:w-6 md:h-6" />}
+                  <span className="whitespace-nowrap">{tab.label}</span>
                 </button>
               ))}
             </div>
@@ -138,8 +135,6 @@ export default function MainDashboard() {
           </div>
         )}
 
-        {/* ... (생략된 Deep Link 렌더링 코드는 이전과 동일하므로 유지) ... */}
-        {/* Gov */}
         {!isLoading && activeTab === 'gov' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
                 {SEARCH_SOURCES.GOV.map((source) => {
@@ -171,7 +166,6 @@ export default function MainDashboard() {
             </div>
         )}
 
-        {/* Museum */}
         {!isLoading && activeTab === 'museum' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
                 {SEARCH_SOURCES.MUSEUMS.map((source) => {
@@ -201,7 +195,6 @@ export default function MainDashboard() {
             </div>
         )}
 
-        {/* Papers */}
         {!isLoading && (activeTab === 'research' || activeTab === 'news') && (
             <div className="space-y-6 animate-fade-in">
                 {papers.length === 0 && hasSearched && !error && (
