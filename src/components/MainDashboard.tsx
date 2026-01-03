@@ -103,21 +103,21 @@ export default function MainDashboard() {
               />
             </form>
 
-            {/* 탭 메뉴 - 간격(gap) 조정 및 모바일 최적화 */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+            {/* 탭 메뉴 - 그리드 레이아웃 최적화 (1열/2열/4열) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
               {TABS.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={cn(
-                    "flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 px-3 py-4 md:py-5 text-sm md:text-lg font-bold transition-all border-2 w-full",
+                    "flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 px-4 py-4 md:py-5 text-base md:text-lg font-bold transition-all border-2 w-full",
                     "rounded-full",
                     activeTab === tab.id 
                       ? "bg-slate-900 text-white border-slate-900 shadow-lg transform scale-[1.02] z-10" 
                       : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-400 hover:text-slate-900"
                   )}
                 >
-                  {tab.icon ? <tab.icon className="w-5 h-5 md:w-6 md:h-6" /> : <BookOpen className="w-5 h-5 md:w-6 md:h-6" />}
+                  {tab.icon ? <tab.icon className="w-6 h-6 md:w-7 md:h-7" /> : <BookOpen className="w-6 h-6 md:w-7 md:h-7" />}
                   <span className="whitespace-nowrap">{tab.label}</span>
                 </button>
               ))}

@@ -15,5 +15,6 @@ export const SEARCH_SOURCES = {
     { id: 'FR_CITE', name: 'Cité des sciences (FR)', url: 'https://www.cite-sciences.fr/en/home', type: 'home' },
     { id: 'KR_NSM', name: '국립중앙과학관 (KR)', url: 'https://www.science.go.kr/', type: 'home' },
     { id: 'KR_GW', name: '국립과천과학관 (KR)', url: 'https://www.sciencecenter.go.kr/', type: 'home' },
+    { id: 'KR_SSC', name: '서울시립과학관 (KR)', url: 'https://science.seoul.go.kr/', type: 'home' }, // 추가됨
   ]
 };
